@@ -16,10 +16,15 @@ function addBookToLibrary() {
     const author = form.querySelector('#book-author').value;
     const pages = form.querySelector('#book-pages').value;
     let read = form.querySelector('#read-book').checked;
-    read = read ? "Yes" : "No";
-    myLibrary.push(new Book(title, author, pages, read));
-    form.reset();
-    displayBooks();
+    if (checkForm(title, author, pages)) {
+        read = read ? "Yes" : "No";
+        myLibrary.push(new Book(title, author, pages, read));
+        form.reset();
+        displayBooks();
+    }
+    else {
+        alert("All fields required.");
+    }
 }
 
 function displayBooks() {
@@ -69,4 +74,11 @@ function openForm() {
 
 function closeForm() {
     document.getElementById('form-container').style.display = "none";
+}
+
+function checkForm(title, author, pages) {
+    if (!title || !author || !pages) {
+        return false;
+    }
+    return true;
 }
