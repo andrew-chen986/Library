@@ -15,8 +15,8 @@ function addBookToLibrary() {
     const title = form.querySelector('#book-title').value;
     const author = form.querySelector('#book-author').value;
     const pages = form.querySelector('#book-pages').value;
-    let read = form.querySelector('#read-book').value;
-    read = read === 'on' ? "Yes" : "No";
+    let read = form.querySelector('#read-book').checked;
+    read = read ? "Yes" : "No";
     myLibrary.push(new Book(title, author, pages, read));
     form.reset();
     displayBooks();
@@ -24,6 +24,11 @@ function addBookToLibrary() {
 
 function displayBooks() {
     const grid = document.querySelector('.grid-container');
+    const oldGrid = document.querySelectorAll('.grid-item');
+    for (item of oldGrid) {
+        grid.removeChild(item);
+    }
+
     for (let book of myLibrary) {
         let newBook = document.createElement('div');
         newBook.setAttribute('class','grid-item');
@@ -44,6 +49,16 @@ function displayBooks() {
         read.textContent = book.read;
         newBook.appendChild(read);
 
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.setAttribute('id', 'remove-button');
+        removeButton.addEventListener('click', (title=book.title) => {
+            const i = myLibrary.indexOf(title);
+            myLibrary.splice(i, 1);
+            displayBooks();
+        });
+        newBook.appendChild(removeButton);
+
         grid.appendChild(newBook);
     }
 }
@@ -55,4 +70,3 @@ function openForm() {
 function closeForm() {
     document.getElementById('form-container').style.display = "none";
 }
-
