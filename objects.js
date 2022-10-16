@@ -28,14 +28,8 @@ function addBookToLibrary() {
 }
 
 function removeBook(elem) {
-    const title = elem.className;
-    console.log(title);
-    let bookIndex;
-    for (let i = 0; i < myLibrary.length; i++) {
-        if (myLibrary[i].title === title) bookIndex = i;
-    }
-    console.log(bookIndex);
-    myLibrary.splice(bookIndex, 1);
+    const i = elem.className;
+    myLibrary.splice(i, 1);
     displayBooks();
 }
 
@@ -66,19 +60,12 @@ function displayBooks() {
         read.textContent = book.read;
         newBook.appendChild(read);
 
+        const i = myLibrary.indexOf(book);
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
         removeButton.setAttribute('id', 'remove-button');
-        removeButton.setAttribute('class', book.title);
+        removeButton.setAttribute('class', i);
         removeButton.setAttribute('onclick', 'removeBook(this)');
-        // removeButton.addEventListener('click', () => {
-        //     const i = myLibrary.indexOf(title);
-        //     console.log(this);
-        //     console.log(this.title);
-        //     console.log(i);
-        //     myLibrary.splice(i, 1);
-        //     displayBooks();
-        // });
         newBook.appendChild(removeButton);
 
         grid.appendChild(newBook);
