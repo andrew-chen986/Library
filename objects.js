@@ -10,6 +10,11 @@ function Book(title, author, pages, read) {
     }
 }
 
+Book.prototype.changeRead = function() {
+    this.read = this.read === "Yes" ? "No" : "Yes";
+    displayBooks();
+}
+
 function addBookToLibrary() {
     const form = document.querySelector('#book-form');
     const title = form.querySelector('#book-title').value;
@@ -67,6 +72,15 @@ function displayBooks() {
         removeButton.setAttribute('class', i);
         removeButton.setAttribute('onclick', 'removeBook(this)');
         newBook.appendChild(removeButton);
+
+        const changeRead = document.createElement('button');
+        changeRead.textContent = book.read === "Yes" ? "Read" : "Not Read";
+        changeRead.setAttribute('id', 'change-read');
+        changeRead.setAttribute('class', i);
+        changeRead.addEventListener('click', () => {
+            book.changeRead();
+        });
+        newBook.appendChild(changeRead);
 
         grid.appendChild(newBook);
     }
